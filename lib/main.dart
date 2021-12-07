@@ -1,11 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart';
+import 'dart:convert';
 
 void main() {
   runApp(const MaterialApp(home: Quotes(), title: "Flutter Quotes"));
 }
 
-class Quotes extends StatelessWidget {
+class Quotes extends StatefulWidget {
   const Quotes({Key? key}) : super(key: key);
+
+  @override
+  State<Quotes> createState() => _QuotesState();
+}
+
+class _QuotesState extends State<Quotes> {
+  String text = "";
+  String author = "";
+
+  void getQuote() async {
+    Response quote = await get(Uri.parse("https://api.quotable.io/random"));
+    Map json = jsonDecode(quote.body);
+    setState(() {
+      text = json["content"];
+      author = json["author"];
+    });
+  }
+
+  @override
+  void initState() {
+    getQuote();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +44,21 @@ class Quotes extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: const [
-            Text("A placeholder quote", style: TextStyle(fontSize: 24.0)),
-            Text("~ a placeholder author", style: TextStyle(fontSize: 18.0))
+          children: [
+            Text(text,
+                style: const TextStyle(fontSize: 24.0),
+                textAlign: TextAlign.center),
+            const Divider(height: 30, indent: 20, endIndent: 20),
+            Text("~ $author",
+                style: const TextStyle(fontSize: 18.0),
+                textAlign: TextAlign.center)
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          getQuote();
+        },
         child: const Icon(Icons.refresh),
         backgroundColor: Colors.indigo,
       ),
