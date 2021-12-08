@@ -45,7 +45,13 @@ class _QuotesState extends State<Quotes> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(text,
+            Text(
+                (() {
+                  if (text != "") {
+                    return text;
+                  }
+                  return "Loading quote...";
+                }()),
                 style: const TextStyle(fontSize: 24.0),
                 textAlign: TextAlign.center),
             const Divider(height: 30, indent: 20, endIndent: 20),
