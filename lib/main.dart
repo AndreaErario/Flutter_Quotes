@@ -35,9 +35,10 @@ class _QuotesState extends State<Quotes> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.grey[200],
       appBar: AppBar(
         title: const Text("Flutter Quotes"),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.teal[300],
         centerTitle: true,
       ),
       body: Center(
@@ -66,7 +67,7 @@ class _QuotesState extends State<Quotes> {
           getQuote();
         },
         child: const Icon(Icons.refresh),
-        backgroundColor: Colors.indigo,
+        backgroundColor: Colors.teal[300],
       ),
     );
   }
